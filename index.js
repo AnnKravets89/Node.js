@@ -2,7 +2,7 @@ const http = require('node:http');
 const path = require('node:path');
 const readline = require('node:readline/promises');
 
-const {foo: helperFoo} = require('./helpers/helper');
+const {foo: helperFoo} = require('./lessons/lesson1/helpers/helper');
 
 
 const foo = async () => {
