@@ -1,12 +1,12 @@
-import express from 'express';
-import { read,write } from './fs.service';
+import express, { Request, Response } from 'express';
+import {read, write} from './fs.service';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/users', async (req, res) => {
+app.get('/users', async (req: Request, res: Response) => {
     try {
         const users = await read();
         res.send(users);
@@ -15,7 +15,7 @@ app.get('/users', async (req, res) => {
     }
 });
 
-app.post('/users', async (req, res) => {
+app.post('/users', async (req: Request, res: Response) => {
     try {
         const {name, email, password} = req.body;
 
@@ -42,3 +42,58 @@ app.post('/users', async (req, res) => {
     }
 });
 
+app.put('/users/:userId', async (req: Request, res: Response) => {
+    try {
+        const userId = Number(req.params.userId);
+        const {name, email, password} = req.body;
+
+        if (name.length < 3) {
+            throw new Error('Name should be at least 3 characters long');
+        }
+        if (!email || !email.includes("@")) {
+            throw new Error("Email is required and should include @");
+        }
+        if (password.length < 6) {
+            throw new Error(
+                "Password  should be at least 6 characters long");
+        }
+
+        const users = await read();
+
+        const userIndex = users.findIndex(user => user.id === userId);
+        if (userIndex === -1) {
+            return res.status(404).send('User not found');
+        }
+
+        users[userIndex].name = name;
+        users[userIndex].email = email;
+        users[userIndex].password = password;
+
+        await write(users);
+        res.status(201).send(users[userIndex]);
+    } catch (e) {
+        res.status(500).send(e.message);
+    }
+});
+
+app.delete('/users/:userId', async (req: Request, res: Response) => {
+    try {
+                                                               const userId = Number(req.params.userId);
+        const users = await read();
+
+        const userIndex = users.findIndex(user => user.id === userId);
+        if (userIndex === -1) {
+            return res.status(404).send('User not found');
+        }
+        users.splice(userIndex, 1);
+
+        await write(users);
+        res.sendStatus(204);
+    } catch (e) {
+        res.status(500).send(e.message);
+    }
+});
+
+app.listen(3000, () => {
+    console.log("Server is running on http://localhost:3000");
+});
