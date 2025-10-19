@@ -1,14 +1,20 @@
 [
   {
     "id": 1,
-    "name": "Igor",
-    "surname": "Popov",
-    "age": "25"
+    "name": "Anna",
+    "surname": "Smith",
+    "age": "30"
   },
   {
     "id": 2,
-    "name": "Olga",
-    "surname": "Popova",
-    "age": "20"
+    "name": "Natali",
+    "surname": "Koovo",
+    "age": "18"
+  },
+  {
+    "id": 3,
+    "name": "John",
+    "surname": "Mooro",
+    "age": "45"
   }
 ]
