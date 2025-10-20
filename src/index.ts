@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, {NextFunction, Request, Response} from 'express';
 import {read, write} from './fs.service';
 
 const app = express();
@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/users', async (req: Request, res: Response) => {
+app.get('/users', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await read();
         res.send(users);
@@ -15,7 +15,7 @@ app.get('/users', async (req: Request, res: Response) => {
     }
 });
 
-app.post('/users', async (req: Request, res: Response) => {
+app.post('/users', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {name, email, password} = req.body;
 
@@ -42,7 +42,7 @@ app.post('/users', async (req: Request, res: Response) => {
     }
 });
 
-app.put('/users/:userId', async (req: Request, res: Response) => {
+app.put('/users/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = Number(req.params.userId);
         const {name, email, password} = req.body;
@@ -76,9 +76,9 @@ app.put('/users/:userId', async (req: Request, res: Response) => {
     }
 });
 
-app.delete('/users/:userId', async (req: Request, res: Response) => {
+app.delete('/users/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
-                                                               const userId = Number(req.params.userId);
+        const userId = Number(req.params.userId);
         const users = await read();
 
         const userIndex = users.findIndex(user => user.id === userId);
