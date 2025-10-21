@@ -3,7 +3,7 @@ import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import prettierPlugin from "eslint-plugin-prettier";
 import importPlugin from "eslint-plugin-import";
-import importSortPlugin from "eslint-plugin-simple-import-sort"
+import importSortPlugin from "eslint-plugin-simple-import-sort";
 
 export default [
     {
