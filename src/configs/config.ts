@@ -9,8 +9,8 @@ interface IConfig {
     MONGO_URI: string;
     JWT_ACCESS_SECRET: string;
     JWT_REFRESH_SECRET: string;
-    JWT_ACCESS_LIFETIME: string;
-    JWT_REFRESH_LIFETIME: string;
+    JWT_ACCESS_LIFETIME: any;
+    JWT_REFRESH_LIFETIME: any;
 }
 
 const config: IConfig = {
