@@ -23,7 +23,7 @@ class AuthService {
         return { user: newUser, tokens };
     }
 
-    public async singIn(
+    public async signIn(
         dto: any,
     ): Promise<{ user: IUser; tokens: ITokenPair }> {
         const user = await userRepository.getByEmail(dto.email);

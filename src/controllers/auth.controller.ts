@@ -6,7 +6,7 @@ import { IUserCreateDTO } from "../interfaces/user.interface";
 import { authService } from "../services/auth.service";
 
 class AuthController {
-    public async singUp(req: Request, res: Response, next: NextFunction) {
+    public async signUp(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body as IUserCreateDTO;
             const data = await authService.signUp(body);
@@ -16,10 +16,10 @@ class AuthController {
         }
     }
 
-    public async singIn(req: Request, res: Response, next: NextFunction) {
+    public async signIn(req: Request, res: Response, next: NextFunction) {
         try {
             const dto = req.body as IAuth;
-            const data = await authService.singIn(dto);
+            const data = await authService.signIn(dto);
             res.status(StatusCodesEnum.OK).json(data);
         } catch (e) {
             next(e);

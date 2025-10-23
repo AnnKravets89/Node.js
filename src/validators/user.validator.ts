@@ -5,7 +5,7 @@ import { RegexEnum } from "../enums/regex.enum";
 export class UserValidator {
     private static email = joi.string().email().trim();
     private static password = joi.string().regex(RegexEnum.PASSWORD);
-    private static name = joi.string().min(3).max(10).trim();
+    private static name = joi.string().regex(RegexEnum.NAME);
     private static surname = joi.string().regex(RegexEnum.NAME);
     private static age = joi.number().min(2).max(100);
 
