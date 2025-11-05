@@ -6,6 +6,7 @@ interface IUser extends IBase {
     email: string;
     password: string;
     role: RoleEnum;
+    avatar: string;
     isDeleted: boolean;
     isVerified: boolean;
     isActive: boolean;

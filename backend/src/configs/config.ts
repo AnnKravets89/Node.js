@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+
+dotenv.config({ path: "../.env" });
+
 interface IConfig {
     PORT: string;
     MONGO_URI: string;
