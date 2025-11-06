@@ -1,6 +1,7 @@
 import path from "node:path";
 
-import multer from "multer";
+import { Request } from "express";
+import multer, { FileFilterCallback } from "multer";
 import { v6 } from "uuid";
 
 import { StatusCodesEnum } from "../enums/status-codes.enum";
@@ -17,7 +18,11 @@ const storage = multer.diskStorage({
     },
 });
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (
+    req: Request,
+    file: Express.Multer.File,
+    cb: FileFilterCallback,
+) => {
     const allowedTypes = /.jpeg|.jpg|.png|.gif/;
     const extname = allowedTypes.test(
         path.extname(file.originalname).toLowerCase(),
