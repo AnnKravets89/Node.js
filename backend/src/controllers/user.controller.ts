@@ -3,13 +3,16 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodesEnum } from "../enums/status-codes.enum";
 import { ApiError } from "../errors/api.error";
 import { ITokenPayload } from "../interfaces/token.interface";
-import { IUserUpdateDTO } from "../interfaces/user.interface";
+import { IUserQuery, IUserUpdateDTO } from "../interfaces/user.interface";
 import { userService } from "../services/user.service";
 
 class UserController {
     public async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await userService.getAll();
+            const { validateQuery } = req as any as {
+                validateQuery: IUserQuery;
+            };
+            const data = await userService.getAll(validateQuery);
             res.status(StatusCodesEnum.OK).json(data);
         } catch (e) {
             next(e);
