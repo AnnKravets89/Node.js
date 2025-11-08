@@ -12,17 +12,8 @@ class UserService {
     public async getAll(
         query: IUserQuery,
     ): Promise<IPaginationResponse<IUser>> {
-        const dataFromDB = await userRepository.getAll(query);
-        let data, totalItems;
+        const [data, totalItems] = await userRepository.getAll(query);
 
-        if (dataFromDB.length) {
-            data = dataFromDB[0].data;
-            totalItems = dataFromDB[0].totalItems;
-        } else {
-            data = [];
-            totalItems = 0;
-        }
-        //const totalItems = data.length;
         const totalPages = Math.ceil(totalItems / query.pageSize);
         return {
             totalItems,
