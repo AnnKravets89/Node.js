@@ -320,6 +320,81 @@ const swaggerDocument: OpenAPIV3.Document = {
                 },
             },
         },
+        "/users/{user_id}": {
+            put: {
+                tags: ["Users"],
+                summary: "Update user by id",
+                security: [{ bearerAuth: [] }],
+                parameters: [
+                    {
+                        name: "user_id",
+                        in: "path",
+                        description: "Update user by id",
+                        required: true,
+                        schema: { type: "string" },
+                    },
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    name: { type: "string" },
+                                    surname: { type: "string" },
+                                    age: { type: "integer" },
+                                },
+                                required: ["name", "surname", "age"],
+                            },
+                        },
+                    },
+                },
+                responses: {
+                    "200": {
+                        description: "Successfully update user by id",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "object",
+                                    properties: {
+                                        _id: { type: "string" },
+                                        email: { type: "string" },
+                                        role: { type: "string" },
+                                        name: { type: "string" },
+                                        surname: { type: "string" },
+                                        age: { type: "integer" },
+                                        avatar: { type: "string" },
+                                        isActive: { type: "boolean" },
+                                        isDeleted: { type: "boolean" },
+                                        isVerified: { type: "boolean" },
+                                        createdAt: { type: "string" },
+                                        updatedAt: { type: "string" },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    "400": {
+                        description: "Bad request",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    type: "object",
+                                    properties: {
+                                        status: {
+                                            type: "string",
+                                            default: 400,
+                                        },
+                                        message: { type: "string" },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
     },
     components: {
         securitySchemes: {
