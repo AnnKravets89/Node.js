@@ -1,6 +1,15 @@
+import { RoleEnum } from "../enums/role.enum";
+
 export interface IUser {
-  id: number,
-  name: string,
-  email: string,
-  password: string
+  _id?: string;
+  name: string;
+  age: number;
+  email: string;
+  password: string;
+  role: RoleEnum;
+  isVerified: boolean;
+  isDeleted: boolean;
+  phone?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
