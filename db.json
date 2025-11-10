@@ -58,5 +58,11 @@
     "name": "Irina",
     "email": "irka7@gmail.com",
     "password": "kkk222"
+  },
+  {
+    "id": 11,
+    "name": "Polina",
+    "email": "qwetest@test.com",
+    "password": "qwetest213"
   }
 ]
