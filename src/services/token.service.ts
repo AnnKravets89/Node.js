@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import { config } from "../configs/config";
+import { TokenTypeEnum } from "../enums/token-type.enum";
 import { ApiError } from "../errors/api-error";
 import { ITokenPair, ITokenPayload } from "../interfaces/token.interface";
 
@@ -17,9 +18,20 @@ class TokenService {
     return { accessToken, refreshToken };
   }
 
-  public verifyToken(token: string): ITokenPayload {
+  public verifyToken(token: string, type: TokenTypeEnum): ITokenPayload {
     try {
-      return jwt.verify(token, config.JWT_ACCESS_SECRET) as ITokenPayload;
+      let secret: string;
+
+      switch (type) {
+        case TokenTypeEnum.ACCESS:
+          secret = config.JWT_ACCESS_SECRET;
+          break;
+
+        case TokenTypeEnum.REFRESH:
+          secret = config.JWT_REFRESH_SECRET;
+          break;
+      }
+      return jwt.verify(token, secret) as ITokenPayload;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {

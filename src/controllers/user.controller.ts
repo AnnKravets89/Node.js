@@ -13,7 +13,6 @@ class UserController {
       next(e);
     }
   }
-
   public async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = req.params.userId;
@@ -26,8 +25,7 @@ class UserController {
 
   public async getMe(req: Request, res: Response, next: NextFunction) {
     try {
-      const jwtPayLoad = req.res.locals.jwtPayLoad as ITokenPayload;
-
+      const jwtPayLoad = req.res.locals.jwtPayload as ITokenPayload;
       const result = await userService.getMe(jwtPayLoad);
       res.json(result);
     } catch (e) {
@@ -37,7 +35,7 @@ class UserController {
 
   public async updateMe(req: Request, res: Response, next: NextFunction) {
     try {
-      const jwtPayLoad = req.res.locals.jwtPayLoad as ITokenPayload;
+      const jwtPayLoad = req.res.locals.jwtPayload as ITokenPayload;
       const dto = req.body as IUser;
 
       const result = await userService.updateMe(jwtPayLoad, dto);
@@ -49,7 +47,7 @@ class UserController {
 
   public async deleteMe(req: Request, res: Response, next: NextFunction) {
     try {
-      const jwtPayLoad = req.res.locals.jwtPayLoad as ITokenPayload;
+      const jwtPayLoad = req.res.locals.jwtPayload as ITokenPayload;
       await userService.deleteMe(jwtPayLoad);
       res.sendStatus(204);
     } catch (e) {
