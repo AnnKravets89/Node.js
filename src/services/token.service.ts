@@ -30,6 +30,8 @@ class TokenService {
         case TokenTypeEnum.REFRESH:
           secret = config.JWT_REFRESH_SECRET;
           break;
+        default:
+          throw new ApiError("Invalid token type", 404);
       }
       return jwt.verify(token, secret) as ITokenPayload;
 

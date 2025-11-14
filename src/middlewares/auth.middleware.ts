@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { TokenTypeEnum } from "../enums/token-type.enum";
 import { ApiError } from "../errors/api-error";
+import { IRefresh } from "../interfaces/token.interface";
 import { tokenRepository } from "../repositories/token.repository";
 import { tokenService } from "../services/token.service";
 
@@ -31,7 +32,29 @@ class AuthMiddleware {
 
       req.res.locals.jwtPayload = payload;
       next();
-      // console.log(payload);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async checkRefreshToken(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { refreshToken } = req.body as IRefresh;
+
+      if (!refreshToken) {
+        throw new ApiError("No Refresh Token provided", 401);
+      }
+
+      const payload = tokenService.verifyToken(
+        refreshToken,
+        TokenTypeEnum.REFRESH,
+      );
+      req.res.locals.jwtPayload = payload;
+      next();
     } catch (e) {
       next(e);
     }

@@ -1,7 +1,9 @@
 import { Router } from "express";
 
 import { authController } from "../controllers/auth.controller";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
+import { AuthValidator } from "../validators/auth.validator";
 import { UserValidator } from "../validators/user.validator";
 
 const router = Router();
@@ -11,10 +13,12 @@ router.post(
   commonMiddleware.isBodyValid(UserValidator.create),
   authController.signUp,
 );
+router.post("/sign-in", authController.signIn);
 router.post(
-  "/sign-in",
-  //commonMiddleware.isBodyValid(UserValidator.create),
-  authController.signIn,
+  "/refresh",
+  commonMiddleware.isBodyValid(AuthValidator.refreshToken),
+  authMiddleware.checkRefreshToken,
+  authController.refresh,
 );
 
 export const authRouter = router;
