@@ -12,6 +12,8 @@ interface IConfig {
   JWT_REFRESH_SECRET: string;
   JWT_ACCESS_EXPIRATION: any;
   JWT_REFRESH_EXPIRATION: any;
+  SMTP_EMAIL: string;
+  SMTP_PASSWORD: string;
 }
 
 export const config: IConfig = {
@@ -24,4 +26,7 @@ export const config: IConfig = {
   JWT_ACCESS_EXPIRATION: process.env.JWT_ACCESS_EXPIRATION,
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
   JWT_REFRESH_EXPIRATION: process.env.JWT_REFRESH_EXPIRATION,
+
+  SMTP_EMAIL: process.env.SMTP_EMAIL,
+  SMTP_PASSWORD: process.env.SMTP_PASSWORD,
 };

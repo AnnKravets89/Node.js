@@ -3,6 +3,7 @@ import { ITokenPair } from "../interfaces/token.interface";
 import { ISignIn, IUser } from "../interfaces/user.interface";
 import { tokenRepository } from "../repositories/token.repository";
 import { userRepository } from "../repositories/user.repository";
+import { emailService } from "./email.service";
 import { passwordService } from "./password.service";
 import { tokenService } from "./token.service";
 
@@ -45,6 +46,8 @@ class AuthService {
       role: user.role,
     });
     await tokenRepository.create({ ...tokens, _userId: user._id });
+
+    await emailService.sendMail("kravetsanna78@gmail.com");
     return { user, tokens };
   }
 
