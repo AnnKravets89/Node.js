@@ -1,3 +1,4 @@
+import { config } from "../configs/config";
 import { EmailTypeEnum } from "../enums/email-type.enum";
 import { ApiError } from "../errors/api-error";
 import { ITokenPair, ITokenPayload } from "../interfaces/token.interface";
@@ -6,6 +7,7 @@ import { tokenRepository } from "../repositories/token.repository";
 import { userRepository } from "../repositories/user.repository";
 import { emailService } from "./email.service";
 import { passwordService } from "./password.service";
+import { sendGridService } from "./send-grid.service";
 import { tokenService } from "./token.service";
 
 class AuthService {
@@ -21,11 +23,19 @@ class AuthService {
       role: user.role,
     });
     await tokenRepository.create({ ...tokens, _userId: user._id });
-    await emailService.sendMail(
-      EmailTypeEnum.WELCOME,
-      "kravetsanna78@gmail.com",
-      { name: user.name },
-    );
+    await sendGridService.send({
+      from: config.SENDGRID_FROM_EMAIL,
+      to: dto.email,
+      templateId: "d-2d3b47c0e1034088957f0cc6ff16ba6f",
+      dynamicTemplateData: {
+        name: dto.name,
+      },
+    });
+    // await emailService.sendMail(
+    //   EmailTypeEnum.WELCOME,
+    //   "kravetsanna78@gmail.com",
+    //   { name: user.name },
+    // );
 
     return { user, tokens };
   }

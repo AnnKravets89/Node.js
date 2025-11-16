@@ -17,6 +17,9 @@ interface IConfig {
 
   SMTP_EMAIL: string;
   SMTP_PASSWORD: string;
+
+  SENDGRID_API_KEY: string;
+  SENDGRID_FROM_EMAIL: string;
 }
 
 export const config: IConfig = {
@@ -32,4 +35,7 @@ export const config: IConfig = {
 
   SMTP_EMAIL: process.env.SMTP_EMAIL,
   SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+
+  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+  SENDGRID_FROM_EMAIL: process.env.SENDGRID_FROM_EMAIL,
 };
