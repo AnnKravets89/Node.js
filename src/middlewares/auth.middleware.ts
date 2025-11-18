@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 
 import { TokenTypeEnum } from "../enums/token-type.enum";
 import { ApiError } from "../errors/api-error";
-import { IRefresh } from "../interfaces/token.interface";
 import { tokenRepository } from "../repositories/token.repository";
 import { tokenService } from "../services/token.service";
 
@@ -24,8 +23,8 @@ class AuthMiddleware {
         accessToken,
         TokenTypeEnum.ACCESS,
       );
-      const pair = await tokenRepository.findByParams({ accessToken });
 
+      const pair = await tokenRepository.findByParams({ accessToken });
       if (!pair) {
         throw new ApiError("Token is not valid", 401);
       }
@@ -43,17 +42,27 @@ class AuthMiddleware {
     next: NextFunction,
   ) {
     try {
-      const { refreshToken } = req.body as IRefresh;
+      const header = req.headers.authorization;
 
-      if (!refreshToken) {
-        throw new ApiError("No Refresh Token provided", 401);
+      if (!header) {
+        throw new ApiError("Token is not provided", 401);
       }
-
+      const refreshToken = header.split("Bearer ")[1];
       const payload = tokenService.verifyToken(
         refreshToken,
         TokenTypeEnum.REFRESH,
       );
+
+      const isTokenExists = await tokenService.isTokenExists(
+        refreshToken,
+        TokenTypeEnum.REFRESH,
+      );
+      if (!isTokenExists) {
+        throw new ApiError("Token is not valid", 401);
+      }
+
       req.res.locals.jwtPayload = payload;
+      req.res.locals.refreshToken = refreshToken;
       next();
     } catch (e) {
       next(e);

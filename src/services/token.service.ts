@@ -4,6 +4,7 @@ import { config } from "../configs/config";
 import { TokenTypeEnum } from "../enums/token-type.enum";
 import { ApiError } from "../errors/api-error";
 import { ITokenPair, ITokenPayload } from "../interfaces/token.interface";
+import { tokenRepository } from "../repositories/token.repository";
 
 class TokenService {
   public generateTokens(payload: ITokenPayload): ITokenPair {
@@ -33,12 +34,24 @@ class TokenService {
         default:
           throw new ApiError("Invalid token type", 404);
       }
+
       return jwt.verify(token, secret) as ITokenPayload;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       throw new ApiError("Invalid token", 401);
     }
+  }
+
+  public async isTokenExists(
+    token: string,
+    type: TokenTypeEnum,
+  ): Promise<boolean> {
+    const iToken = await tokenRepository.findByParams({
+      [type]: token,
+    });
+
+    return !!iToken;
   }
 }
 
