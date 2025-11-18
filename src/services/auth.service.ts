@@ -63,6 +63,22 @@ class AuthService {
     return { user, tokens };
   }
 
+  public async refresh(
+    refreshToken: string,
+    payload: ITokenPayload,
+  ): Promise<ITokenPair> {
+    const tokens = tokenService.generateTokens({
+      userId: payload.userId,
+      role: payload.role,
+    });
+    await tokenRepository.create({
+      ...tokens,
+      _userId: payload.userId,
+    });
+
+    return tokens;
+  }
+
   public async logout(
     jwtPayload: ITokenPayload,
     tokenId: string,
