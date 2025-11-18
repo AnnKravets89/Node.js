@@ -94,6 +94,30 @@ class AuthMiddleware {
       next(e);
     }
   }
+
+  public async checkVerifyActionToken(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const token = req.body.token as string;
+      const payload = tokenService.verifyToken(
+        token,
+        ActionTokenTypeEnum.VERIFY_EMAIL,
+      );
+
+      const tokenEntity = await actionTokenRepository.getByToken(token);
+      if (!tokenEntity) {
+        throw new ApiError("Token is not valid", 401);
+      }
+
+      req.res.locals.jwtPayload = payload;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export const authMiddleware = new AuthMiddleware();

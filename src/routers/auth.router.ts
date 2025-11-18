@@ -32,5 +32,10 @@ router.put(
   authMiddleware.checkActionToken,
   authController.forgotPasswordSet,
 );
+router.post(
+  "/verify",
+  authMiddleware.checkVerifyActionToken,
+  authController.verify,
+);
 
 export const authRouter = router;
