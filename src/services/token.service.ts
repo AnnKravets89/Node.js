@@ -48,7 +48,6 @@ class TokenService {
           throw new ApiError("Invalid token type", 400);
       }
       return jwt.verify(token, secret) as ITokenPayload;
-
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       throw new ApiError("Invalid token", 401);
