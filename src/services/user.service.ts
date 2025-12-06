@@ -49,10 +49,20 @@ class UserService {
     );
     const updatedUser = await userRepository.updateById(user._id, { avatar });
     if (user.avatar) {
-      // await s3Service.deleteFile(user.avatar); TODO
+      await s3Service.deleteFile(user.avatar);
     }
 
     return updatedUser;
+  }
+
+  public async deleteAvatar(jwtPayLoad: ITokenPayload): Promise<IUser> {
+    const user = await userRepository.getById(jwtPayLoad.userId);
+
+    if (!user.avatar) {
+      await s3Service.deleteFile(user.avatar);
+    }
+
+    return await userRepository.updateById(user._id, { avatar: null });
   }
 
   public async deleteMe(jwtPayLoad: ITokenPayload): Promise<void> {
