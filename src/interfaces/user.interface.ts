@@ -1,6 +1,8 @@
+import { OrderEnum } from "../enums/order.enum";
 import { RoleEnum } from "../enums/role.enum";
+import { UserListOrderByEnum } from "../enums/user-list-order-by.enum";
 
-export interface IUser {
+interface IUser {
   _id?: string;
   name: string;
   age: number;
@@ -14,11 +16,45 @@ export interface IUser {
   createdAt?: Date;
   updatedAt?: Date;
 }
+interface ISignIn extends Pick<IUser, "email" | "password"> {}
 
-export interface ISignIn extends Pick<IUser, "email" | "password"> {}
+type IResetPasswordSend = Pick<IUser, "email">;
+type IResetPasswordSet = Pick<IUser, "password"> & { token: string };
+type IChangePassword = Pick<IUser, "password"> & { oldPassword: string };
 
-export type IResetPasswordSend = Pick<IUser, "email">;
+interface IUserQuery {
+  limit: number;
+  page: number;
+  search?: string;
+  order?: OrderEnum;
+  orderBy?: UserListOrderByEnum;
+}
 
-export type IResetPasswordSet = Pick<IUser, "password"> & { token: string };
+interface IUserResponse
+  extends Pick<
+    IUser,
+    | "_id"
+    | "name"
+    | "email"
+    | "age"
+    | "role"
+    | "avatar"
+    | "isDeleted"
+    | "isVerified"
+  > {}
 
-export type IChangePassword = Pick<IUser, "password"> & { oldPassword: string };
+interface IUserListResponse {
+  data: IUserResponse[];
+  total: number;
+}
+
+export type {
+  IChangePassword,
+  IResetPasswordSend,
+  IResetPasswordSet,
+  ISignIn,
+  IUser,
+  IUserListResponse,
+  IUserQuery,
+  IUserResponse,
+};
