@@ -33,11 +33,12 @@ class CommonMiddleware {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
         const validated = await validator.validateAsync(req.query, {
-          convert: true,
-          abortEarly: false,
-          stripUnknown: true,
+          convert: true, // converting types if it possible
+          abortEarly: false, // don't stop on the first mistake, collecting them together
+          stripUnknown: true, // removes all fields that aren't in the Joi schema
         });
         res.locals.query = validated;
+        console.log(validated);
 
         next();
       } catch (e) {

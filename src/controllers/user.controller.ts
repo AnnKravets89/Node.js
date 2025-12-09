@@ -10,7 +10,6 @@ class UserController {
   public async getList(req: Request, res: Response, next: NextFunction) {
     try {
       const query = res.locals.query as IUserQuery;
-      console.log(query);
 
       const result = await userService.getList(query);
       res.json(result);

@@ -23,8 +23,8 @@ type IResetPasswordSet = Pick<IUser, "password"> & { token: string };
 type IChangePassword = Pick<IUser, "password"> & { oldPassword: string };
 
 interface IUserQuery {
-  limit: number;
-  page: number;
+  limit?: number;
+  page?: number;
   search?: string;
   order?: OrderEnum;
   orderBy?: UserListOrderByEnum;

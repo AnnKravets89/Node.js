@@ -1,22 +1,26 @@
 import { FilterQuery } from "mongoose";
 
+import { OrderEnum } from "../enums/order.enum";
 import { IUser, IUserQuery } from "../interfaces/user.interface";
 import { User } from "../models/user.model";
 
 class UserRepository {
   public async getList(query: IUserQuery): Promise<[IUser[], number]> {
     const filterObj: FilterQuery<IUser> = {};
+
     if (query.search) {
       filterObj.name = { $regex: query.search, $options: "i" };
-      // filterObj.$or = [
-      //   { name: { $regex: query.search, $options: "i" } },
-      //   { email: { $regex: query.search, $options: "i" } },
-      // ];
     }
+
     const skip = query.limit * (query.page - 1);
 
+    const sortObj: Record<string, 1 | -1> = {};
+    if (query.orderBy) {
+      sortObj[query.orderBy] = query.order === OrderEnum.ASC ? 1 : -1;
+    }
+
     return await Promise.all([
-      User.find(filterObj).limit(query.limit).skip(skip),
+      User.find(filterObj).limit(query.limit).skip(skip).sort(sortObj),
       User.countDocuments(filterObj),
     ]);
   }
