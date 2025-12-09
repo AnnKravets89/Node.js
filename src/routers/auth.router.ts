@@ -28,7 +28,7 @@ router.post(
 );
 router.post("/forgot-password", authController.forgotPasswordSendEmail);
 router.put(
-  "/forgot-password",
+  "/forgot-password/recover",
   authMiddleware.checkActionToken,
   authController.forgotPasswordSet,
 );

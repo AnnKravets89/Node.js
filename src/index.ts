@@ -3,8 +3,8 @@ import fileUpload from "express-fileupload";
 import mongoose from "mongoose";
 import swaggerUi from "swagger-ui-express";
 
-import swaggerDocument from "../docs/swagger.json";
 import { config } from "./configs/config";
+import { swaggerDocument } from "./configs/swagger.config";
 import { cronRunner } from "./crons/index.cron";
 import { ApiError } from "./errors/api-error";
 import { authRouter } from "./routers/auth.router";
