@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 
+import { MeasureTimeDecorator } from "../decorators/measure-time.decorator";
 import { ITokenPayload } from "../interfaces/token.interface";
 import { IUser, IUserQuery } from "../interfaces/user.interface";
 import { userPresenter } from "../presenters/user.presenter";
 import { userService } from "../services/user.service";
 
 class UserController {
+  @MeasureTimeDecorator("😜")
   public async getList(req: Request, res: Response, next: NextFunction) {
     try {
       const query = res.locals.query as IUserQuery;
